@@ -1,0 +1,36 @@
+{
+  "name": "chat-example-data-star",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch --env-file=.env src/index.ts",
+    "vite-dev": "vite --mode client",
+    "build": "vite build --mode client && tsup",
+    "db": "pnpx @outerbase/studio local.db --port=3333"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.13.7",
+    "@libsql/client": "^0.14.0",
+    "@types/node": "^22.10.7",
+    "date-fns": "^4.1.0",
+    "hono": "^4.6.15",
+    "hono-sessions": "^0.7.0",
+    "p-debounce": "^4.0.0",
+    "tsx": "^4.19.2",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@hono/vite-build": "^1.2.1",
+    "autoprefixer": "^10.4.20",
+    "daisyui": "^4.12.23",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.17",
+    "tsup": "^8.3.5",
+    "typescript": "^5.7.3",
+    "vite": "^6.0.7"
+  },
+  "pnpm": {
+    "overrides": {
+      "whatwg-url": "13.0.0"
+    }
+  }
+}
