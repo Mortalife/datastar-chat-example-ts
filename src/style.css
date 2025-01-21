@@ -1,3 +1,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:where(html) {
+  --ease-5: cubic-bezier(0.25, 0, 0.1, 1);
+}
+
+@keyframes slide-in-right {
+  from {
+    transform: translateX(-100%);
+  }
+}
+
+.dramatic-ease {
+  animation: slide-in-right 1s var(--ease-5);
+}

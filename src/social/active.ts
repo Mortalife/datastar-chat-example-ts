@@ -1,7 +1,3 @@
-/**
- *   "CREATE TABLE IF NOT EXISTS online (id INTEGER PRIMARY KEY, user_id TEXT, online_at INT)",
- */
-
 import { client } from "../database";
 import { User, UserSchema } from "../user";
 

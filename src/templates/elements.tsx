@@ -5,12 +5,15 @@ import { User } from "../user";
 
 export const ChatMessages = (messages: ChatMessage[], user: User) => {
   const now = new Date();
-  return html` <div id="chat-messages" class="max-h-[400px] overflow-auto">
+  return html` <div
+    id="chat-messages"
+    class="max-h-[450px] flex flex-col-reverse overflow-auto"
+  >
     ${messages.map((message) => {
       const isYou = message.user_id === user.id;
 
       return html`<div class="chat ${isYou ? "chat-end" : "chat-start"}">
-        <div class="chat-bubble">
+        <div class="dramatic-ease chat-bubble">
           <div class="chat-header text-xs">
             ${isYou ? "You" : restrictUserId(message.user_id)}
           </div>

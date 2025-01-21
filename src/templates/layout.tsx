@@ -50,10 +50,6 @@ const Layout = async (props: SiteData) => {
           )
     }
 
-    <!-- <link rel="prefetch" href="/assets/textures/cliff-texture.png" as="image">
-    <link rel="prefetch" href="/assets/textures/grass-texture.png" as="image">
-    <link rel="prefetch" href="/assets/textures/tree-texture.png" as="image">
-    <link rel="prefetch" href="/assets/textures/water-texture.png" as="image"> -->
   </head>
   <body class="p-4">
     ${props.children}

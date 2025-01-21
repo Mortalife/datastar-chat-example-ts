@@ -1,5 +1,5 @@
 import { html } from "hono/html";
-import { ChatMessages, UserInfo } from "./elements";
+import { ChatMessages, OtherUserInfo, UserInfo } from "./elements";
 import { toHtmlJson } from "../lib/datastar";
 import type { ChatMessage } from "../social/chat";
 import { User } from "../user";
@@ -17,28 +17,34 @@ export const Render = (props: {
       data-persist-user="user_id"
     >
       <div id="info">${UserInfo()}</div>
-      <div id="content" class="flex flex-col gap-4">
-        <div
-          id="chat"
-          class="grid grid-cols-1 gap-2"
-          data-signals__ifmissing="${toHtmlJson({ message: "" })}"
-        >
-          <h2 class="text-2xl font-bold">Chat</h2>
-          <form
-            class="flex flex-row gap-2"
-            data-on-submit="@post('/chat'); $message = ''"
-          >
-            <input
-              type="text"
-              class="p-2 border-gray-400 rounded flex-grow"
-              autocomplete="off"
-              data-bind="message"
-              maxlength="100"
-              placeholder="Enter your message"
-            />
-            <button class="btn btn-primary">Send</button>
-          </form>
-          ${ChatMessages(props.chatMessages ?? [], props.user)}
+      <div
+        id="chat"
+        class="grid grid-cols-1 grid-rows-[auto_1fr] gap-2 p-4"
+        data-signals__ifmissing="${toHtmlJson({ message: "" })}"
+      >
+        <h2 class="text-2xl font-bold border-b border-gray-700 pb-2">Chat</h2>
+        <div class="grid grid-cols-[160px_1fr] justify-stretch gap-2">
+          <div class="flex flex-col mr-1 pr-2 gap-2 border-r border-gray-700">
+            <h3 class="text-lg font-semibold">Online users:</h3>
+            ${props.onlineUsers.map((user) => OtherUserInfo(user))}
+          </div>
+          <div class="flex flex-col gap-2 justify-end">
+            ${ChatMessages(props.chatMessages ?? [], props.user)}
+            <form
+              class="flex flex-row gap-2"
+              data-on-submit="@post('/chat'); $message = ''"
+            >
+              <input
+                type="text"
+                class="p-2 border-gray-400 rounded flex-grow"
+                autocomplete="off"
+                data-bind="message"
+                maxlength="100"
+                placeholder="Enter your message"
+              />
+              <button class="btn btn-primary">Send</button>
+            </form>
+          </div>
         </div>
       </div>
       <div
