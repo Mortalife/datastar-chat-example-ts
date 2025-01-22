@@ -40,7 +40,7 @@ const Layout = async (props: SiteData) => {
     <meta property="og:title" content="${props.title}">
     <meta property="og:image" content="${props.image}">
     
-    <script type="module" src="https://cdn.jsdelivr.net/npm/@starfederation/datastar@1.0.0-beta.1/dist/datastar.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@starfederation/datastar@1.0.0-beta.2/dist/datastar.js"></script>
     ${
       process.env.NODE_ENV === "production"
         ? raw(`<script type="module" src="/static/assets/client.js"></script>

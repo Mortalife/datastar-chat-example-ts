@@ -12,7 +12,10 @@ export const ChatMessages = (messages: ChatMessage[], user: User) => {
     ${messages.map((message) => {
       const isYou = message.user_id === user.id;
 
-      return html`<div class="chat ${isYou ? "chat-end" : "chat-start"}">
+      return html`<div
+        id="message-${message.id}"
+        class="chat ${isYou ? "chat-end" : "chat-start"}"
+      >
         <div class="dramatic-ease chat-bubble">
           <div class="chat-header text-xs">
             ${isYou ? "You" : restrictUserId(message.user_id)}
