@@ -4,7 +4,7 @@ export const client = createClient({
   url: `file:${process.env["DATABASE_PATH"] ?? ""}local.db`,
 });
 
-await client.execute("PRAGMA journey_mode = WAL;");
+await client.execute("PRAGMA journal_mode = WAL;");
 await client.execute("PRAGMA busy_timeout = 5000;");
 await client.execute("PRAGMA synchronous = NORMAL;");
 await client.execute("PRAGMA cache_size = 2000;");
