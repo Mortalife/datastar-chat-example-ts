@@ -13,7 +13,7 @@ This repository contains a real-time chat application built using DataStar, Hono
 
 ## Prerequisites
 
-- Node.js (v22 or later recommended)
+- Node.js (v24)
 - pnpm
 - Docker (for containerized deployment)
 

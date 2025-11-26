@@ -1,8 +1,9 @@
 import { html } from "hono/html";
 import { ChatMessages, OtherUserInfo, UserInfo } from "./elements";
-import { toHtmlJson } from "../lib/datastar";
+
 import type { ChatMessage } from "../social/chat";
 import { User } from "../user";
+import { json } from "stream/consumers";
 
 export const Render = (props: {
   user: User;
@@ -13,14 +14,14 @@ export const Render = (props: {
     <div
       class="md:container md:mx-auto grid grid-rows-[50px_1fr_60px] gap-4 h-full items-between"
       id="page"
-      data-signals="${toHtmlJson({ user_id: props.user.id })}"
-      data-persist-user="user_id"
+      data-signals="${JSON.stringify({ user_id: props.user.id })}"
+      data-persist:user="user_id"
     >
       <div id="info">${UserInfo()}</div>
       <div
         id="chat"
         class="grid grid-cols-1 grid-rows-[auto_1fr] gap-2 p-4"
-        data-signals__ifmissing="${toHtmlJson({ message: "" })}"
+        data-signals__ifmissing="${JSON.stringify({ message: "" })}"
       >
         <h2 class="text-2xl font-bold border-b border-gray-700 pb-2">Chat</h2>
         <div class="grid grid-cols-[160px_1fr] justify-stretch gap-2">
@@ -32,7 +33,7 @@ export const Render = (props: {
             ${ChatMessages(props.chatMessages ?? [], props.user)}
             <form
               class="flex flex-row gap-2"
-              data-on-submit="@post('/chat'); $message = ''"
+              data-on:submit="@post('/chat'); $message = ''"
             >
               <input
                 type="text"
@@ -49,11 +50,11 @@ export const Render = (props: {
       </div>
       <div
         class="p-4 flex flex-row gap-2 items-center justify-between"
-        data-signals="${toHtmlJson({
+        data-signals="${JSON.stringify({
           _showUserId: false,
         })}"
       >
-        <button class="btn" data-on-click="$_showUserId = !$_showUserId">
+        <button class="btn" data-on:click="$_showUserId = !$_showUserId">
           Toggle User Id
         </button>
         <div class="flex flex-row items-center gap-2" data-show="$_showUserId">
@@ -63,7 +64,7 @@ export const Render = (props: {
         <button
           class="btn btn-ghost"
           id="logout"
-          data-on-click="@delete('/logout')"
+          data-on:click="@delete('/logout')"
         >
           Logout
         </button>
@@ -73,12 +74,12 @@ export const Render = (props: {
 };
 
 export const PageContainer = (props: { user_id: string }) => html`
-  <div id="page-container" class="h-full" data-on-load="@get('/feed')">
+  <div id="page-container" class="h-full" data-init="@get('/feed')">
     <div
       class="md:container md:mx-auto"
       id="page"
-      data-signals="${toHtmlJson({ user_id: props.user_id })}"
-      data-persist-user="user_id"
+      data-signals="${JSON.stringify({ user_id: props.user_id })}"
+      data-persist:user="user_id"
     ></div>
   </div>
 `;
@@ -87,14 +88,14 @@ export const PageLogin = (props: { user_id: string; error?: string }) => html`
   <div
     class="container mx-auto"
     id="page"
-    data-signals="${toHtmlJson({ user_id: props.user_id })}"
-    data-persist-user="user_id"
+    data-signals="${JSON.stringify({ user_id: props.user_id })}"
+    data-persist:user="user_id"
   >
     <div class="grid grid-cols-1 gap-4">
       <h1 class="text-3xl font-bold">Welcome!</h1>
       <form
         class="container grid grid-cols-1 gap-4"
-        data-on-submit="@post('/login')"
+        data-on:submit="@post('/login')"
       >
         <label class="input input-bordered flex items-center gap-2">
           <svg
@@ -132,7 +133,7 @@ export const PageLogin = (props: { user_id: string; error?: string }) => html`
           </svg>
           <span>${props.error}</span>
         </div>`}
-        <button class="btn btn-primary" data-on-click_once="@post('/login')">
+        <button class="btn btn-primary" data-on:click_once="@post('/login')">
           Login
         </button>
       </form>

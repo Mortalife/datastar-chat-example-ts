@@ -39,7 +39,7 @@ export const UserInfo = () => html` <div
   class="w-full flex flex-row justify-end items-center"
 >
   <div class="flex flex-row gap-2">
-    <button class="btn btn-square" data-on-click="@get('/refresh')">
+    <button class="btn btn-square" data-on:click="@get('/refresh')">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"

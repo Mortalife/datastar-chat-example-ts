@@ -1,12 +1,12 @@
 import { type HtmlEscapedString } from "hono/utils/html";
 
-export const fragmentEvent = (
-  html: HtmlEscapedString | Promise<HtmlEscapedString>,
-  id: number
+export const patchElementEvent = (
+  html: HtmlEscapedString | Promise<HtmlEscapedString>
 ) => {
   return {
-    data: `fragments ${html.toString().replaceAll("\n", "")}\n\n`,
-    event: "datastar-merge-fragments",
-    id: `${id}`,
+    data: [`elements ${html.toString().replaceAll("\n", "\nelements ")}`].join(
+      "\n"
+    ),
+    event: "datastar-patch-elements",
   };
 };

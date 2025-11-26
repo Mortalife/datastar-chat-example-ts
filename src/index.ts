@@ -2,7 +2,7 @@ import { Hono } from "hono";
 import { streamSSE } from "hono/streaming";
 import { Session, sessionMiddleware } from "hono-sessions";
 import { Content } from "./templates/layout";
-import { getUser, getUserSync, updateUsername, User } from "./user";
+import { getUser, getUserSync } from "./user";
 import { CHAT_EVENT, PubSub, USER_EVENT } from "./sse/pubsub";
 import { saveMessage } from "./social/chat";
 import { markUserOffline, markUserOnline } from "./social/active";
@@ -13,6 +13,7 @@ import { serve } from "@hono/node-server";
 
 import { sessionStore } from "./lib/libsql-store";
 import pDebounce from "p-debounce";
+import { compression } from "./lib/compression";
 
 type SessionDataTypes = {
   user_id: string;
@@ -46,6 +47,8 @@ app.use("*", (c, next) => {
 
   return session(c, next);
 });
+
+app.use(compression);
 
 app.use(
   "/static/assets/*",
@@ -190,14 +193,13 @@ app.get("/feed", async (c) => {
 app.get("/refresh", async (c) => {
   const session = c.get("session");
   const user_id = session.get("user_id") ?? "";
-  let id = 0;
   return streamSSE(
     c,
     async (stream) => {
       const user = await getUser(user_id);
 
       if (!user) {
-        return await sendUserNotFound(stream, user_id, id);
+        return await sendUserNotFound(stream, user_id);
       }
 
       await sendPage(stream, {
@@ -236,6 +238,8 @@ app.post("/chat", async (c) => {
 app.get("/health", (c) => {
   return c.text("OK");
 });
+
+console.log(`Server is running on http://localhost:3000`);
 
 serve({
   fetch: app.fetch,

@@ -9,9 +9,9 @@ import {
   getMessages,
   type ChatMessage,
 } from "./social/chat";
-import { getUser, getUserSync, User } from "./user";
+import { getUser, User } from "./user";
 import { Render, PageLogin } from "./templates/page";
-import { fragmentEvent } from "./sse";
+import { patchElementEvent } from "./sse";
 
 export const sendPage = async (
   stream: SSEStreamingApi,
@@ -25,8 +25,7 @@ export const sendPage = async (
     status?: UserOnlineStatus;
     user?: User;
     chatMessages?: ChatMessage[];
-  },
-  id: number = 1
+  }
 ) => {
   let start = Date.now();
   if (!user) {
@@ -66,20 +65,18 @@ export const sendPage = async (
     console.log(`Page state generated in ${Date.now() - start}ms`);
   }
 
-  return stream.writeSSE(fragmentEvent(page, id));
+  return stream.writeSSE(patchElementEvent(page));
 };
 
 export const sendUserNotFound = async (
   stream: SSEStreamingApi,
-  user_id: string,
-  id: number = 1
+  user_id: string
 ) =>
   stream.writeSSE(
-    fragmentEvent(
+    patchElementEvent(
       PageLogin({
         user_id,
         error: "User not found",
-      }),
-      id
+      })
     )
   );

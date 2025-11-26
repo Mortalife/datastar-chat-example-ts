@@ -40,15 +40,14 @@ const Layout = async (props: SiteData) => {
     <meta property="og:title" content="${props.title}">
     <meta property="og:image" content="${props.image}">
     
-    <script type="module" src="https://cdn.jsdelivr.net/npm/@starfederation/datastar@1.0.0-beta.2/dist/datastar.js"></script>
-    ${
-      process.env.NODE_ENV === "production"
-        ? raw(`<script type="module" src="/static/assets/client.js"></script>
+<script type="module" src="https://cdn.jsdelivr.net/gh/starfederation/datastar@1.0.0-RC.6/bundles/datastar.js"></script>    ${
+    process.env.NODE_ENV === "production"
+      ? raw(`<script type="module" src="/static/assets/client.js"></script>
           <link rel="stylesheet" href="/static/${css}">`)
-        : raw(
-            '<script type="module" src="http://localhost:5173/src/client.ts"></script>'
-          )
-    }
+      : raw(
+          '<script type="module" src="http://localhost:5173/src/client.ts"></script>'
+        )
+  }
 
   </head>
   <body class="p-4">
